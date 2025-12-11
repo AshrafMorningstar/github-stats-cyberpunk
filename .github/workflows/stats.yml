@@ -1,0 +1,31 @@
+name: 📊 Generate GitHub Stats
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at midnight UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: ⚡ Update last modified timestamp
+        run: |
+          echo "Last updated: $(date)" > LAST_UPDATED.txt
+      
+      - name: 📝 Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add LAST_UPDATED.txt
+          git commit -m "🔄 Automated stats update - $(date)" || echo "No changes to commit"
+      
+      - name: 🚀 Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
