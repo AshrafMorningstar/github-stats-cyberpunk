@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRISM PORTFOLIO — Living Aesthetic Grid</title>
+  <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050816;
+      --surface: rgba(15, 23, 42, 0.96);
+      --accent-1: #38bdf8;
+      --accent-2: #a855f7;
+      --accent-3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --radius-lg: 18px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --glass: rgba(15, 23, 42, 0.82);
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #0b1220 0, #020617 45%, #020617 100%);
+      color: var(--text);
+      font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      overflow-x: hidden;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(168, 85, 247, 0.2), transparent 55%),
+        var(--glass);
+      border-radius: 28px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-soft);
+      padding: 28px 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(
+          120deg,
+          rgba(148, 163, 184, 0.18) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          210deg,
+          rgba(51, 65, 85, 0.25) 1px,
+          transparent 1px
+        );
+      background-size: 40px 40px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .shell-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.9fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 64, 175, 0.7));
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.8);
+    }
+
+    .title {
+      font-family: "General Sans", system-ui;
+      font-size: clamp(2.3rem, 3.1vw, 2.8rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .title span.highlight {
+      background: linear-gradient(120deg, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 360px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #38bdf8;
+    }
+
+    .theme-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.8);
+      margin-bottom: 8px;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.32), transparent 65%),
+        rgba(15, 23, 42, 0.92);
+      color: var(--text);
+      font-size: 11px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-toggle span.key {
+      font-family: "General Sans";
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .theme-spark {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: conic-gradient(from 140deg, #22d3ee, #e879f9, #f97316, #22d3ee);
+      position: relative;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
+    }
+
+    .theme-spark::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 30%, #e0f2fe, #38bdf8);
+    }
+
+    .theme-meta {
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.9);
+      margin-top: 6px;
+    }
+
+    .theme-meta span {
+      color: #e5e7eb;
+    }
+
+    .right-panel {
+      position: relative;
+      border-radius: 22px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.35), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(248, 113, 113, 0.32), transparent 55%),
+        rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      padding: 18px 18px 16px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+      overflow: hidden;
+    }
+
+    .right-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .dots {
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #4b5563;
+    }
+
+    .dot:nth-child(1) {
+      background: #fb7185;
+    }
+    .dot:nth-child(2) {
+      background: #facc15;
+    }
+    .dot:nth-child(3) {
+      background: #4ade80;
+    }
+
+    .right-panel-tag {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .tile {
+      position: relative;
+      border-radius: 14px;
+      padding: 14px 12px 12px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      cursor: pointer;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out,
+        background 0.18s ease-out;
+      overflow: hidden;
+    }
+
+    .tile:hover {
+      transform: translateY(-4px);
+      border-color: rgba(248, 250, 252, 0.88);
+      box-shadow: 0 16px 28px rgba(15, 23, 42, 0.9);
+    }
+
+    .tile-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.9);
+      margin-bottom: 8px;
+    }
+
+    .tile-value {
+      font-family: "General Sans";
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .tile-meta {
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .tile-pill {
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 9px;
+    }
+
+    .tile-spark {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #e5e7eb, #38bdf8);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .foot-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fb7185, #f97316);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #020617;
+      box-shadow: 0 0 16px rgba(248, 113, 113, 0.9);
+    }
+
+    .glow-bar {
+      flex: 1;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.3), rgba(168, 85, 247, 0.9));
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.9);
+    }
+
+    .foot-right span {
+      color: #e5e7eb;
+    }
+
+    @media (max-width: 860px) {
+      .shell-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .shell {
+        padding: 22px 18px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="shell-inner">
+      <section>
+        <div class="badge-row">
+          <div class="badge"><span class="badge-dot"></span> LIVE DESIGN SYSTEM</div>
+          <div class="badge">AUTO–THEMED • ONE VIEW</div>
+        </div>
+        <h1 class="title">
+          Prism
+          <span class="highlight">Portfolio</span>
+        </h1>
+        <p class="subtitle">
+          A living grid of your work. Every refresh, a new visual mood and layout accent—without you touching a single line.
+        </p>
+        <div class="pill-row" id="pillRow"></div>
+        <p class="theme-label">Session palette</p>
+        <button class="theme-toggle" id="themeToggle">
+          <div class="theme-spark" aria-hidden="true"></div>
+          <div>
+            <span class="key">random prism</span>
+            <div class="theme-meta">
+              active theme • <span id="themeName">Ocean dusk &amp; lavender glass</span>
+            </div>
+          </div>
+        </button>
+      </section>
+
+      <section class="right-panel" aria-label="Portfolio preview">
+        <header class="right-panel-header">
+          <div class="dots" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <span class="right-panel-tag">session layout • <span id="layoutLabel">balanced grid</span></span>
+        </header>
+        <div class="grid" id="projectGrid"></div>
+        <footer class="footer-row">
+          <div class="foot-left">
+            <span class="avatar">A</span>
+            <span>Generated for @AshrafMorningstar</span>
+          </div>
+          <div class="foot-right">
+            density <span id="densityLabel">00.78</span>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const themePresets = [
+      {
+        name: "Ocean dusk & lavender glass",
+        accents: ["#38bdf8", "#a855f7", "#0ea5e9"],
+        surface: "rgba(15,23,42,0.96)",
+        pills: ["Fractal tiles", "Soft neon", "Low–noise grid"],
+      },
+      {
+        name: "Amber film & charcoal",
+        accents: ["#f97316", "#facc15", "#fb923c"],
+        surface: "rgba(15,23,42,0.96)",
+        pills: ["Cinematic glow", "Warm highlights", "Muted chrome"],
+      },
+      {
+        name: "Emerald glass & deep ink",
+        accents: ["#22c55e", "#4ade80", "#22d3ee"],
+        surface: "rgba(15,23,42,0.96)",
+        pills: ["Studio calm", "Soft gradients", "Slow contrast"],
+      },
+      {
+        name: "Rose signal & night air",
+        accents: ["#fb7185", "#f97316", "#f9a8d4"],
+        surface: "rgba(15,23,42,0.96)",
+        pills: ["Signal accents", "Dusty pink", "Film grain"],
+      },
+    ];
+
+    const layoutModes = [
+      "balanced grid",
+      "right–heavy focus",
+      "asymmetric spotlight",
+      "compact gallery",
+    ];
+
+    const baseProjects = [
+      { label: "Case study", key: "Narrative", unit: "screens" },
+      { label: "Interface", key: "UI set", unit: "frames" },
+      { label: "System", key: "Design tokens", unit: "layers" },
+      { label: "Prototype", key: "Motion", unit: "steps" },
+      { label: "Experiment", key: "Exploration", unit: "variants" },
+      { label: "Story", key: "Visual thread", unit: "shots" },
+    ];
+
+    function randomFloat(min, max, decimals = 2) {
+      const val = Math.random() * (max - min) + min;
+      return parseFloat(val.toFixed(decimals));
+    }
+
+    function randomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function applyTheme() {
+      const preset = randomItem(themePresets);
+      const root = document.documentElement;
+      root.style.setProperty("--accent-1", preset.accents[0]);
+      root.style.setProperty("--accent-2", preset.accents[1]);
+      root.style.setProperty("--accent-3", preset.accents[2]);
+      root.style.setProperty("--surface", preset.surface);
+
+      document.querySelector(
+        ".right-panel"
+      ).style.background = `radial-gradient(circle at top left, ${preset.accents[0]}33, transparent 55%),
+        radial-gradient(circle at bottom right, ${preset.accents[1]}33, transparent 55%),
+        rgba(15,23,42,0.96)`;
+
+      document.getElementById("themeName").textContent = preset.name;
+
+      const pillRow = document.getElementById("pillRow");
+      pillRow.innerHTML = "";
+      preset.pills.forEach((pillText, index) => {
+        const pill = document.createElement("div");
+        pill.className = "pill";
+        const dot = document.createElement("span");
+        dot.className = "pill-dot";
+        dot.style.background = preset.accents[index % preset.accents.length];
+        pill.appendChild(dot);
+        pill.appendChild(document.createTextNode(pillText));
+        pillRow.appendChild(pill);
+      });
+
+      const layoutLabel = randomItem(layoutModes);
+      document.getElementById("layoutLabel").textContent = layoutLabel;
+
+      const density = randomFloat(0.42, 0.97, 2);
+      document.getElementById("densityLabel").textContent = density.toFixed(2);
+
+      buildProjectGrid(preset);
+    }
+
+    function buildProjectGrid(preset) {
+      const grid = document.getElementById("projectGrid");
+      grid.innerHTML = "";
+
+      const shuffled = [...baseProjects].sort(() => Math.random() - 0.5);
+      const accentPalette = preset.accents;
+
+      shuffled.forEach((project, idx) => {
+        const tile = document.createElement("article");
+        tile.className = "tile";
+
+        const accent = accentPalette[idx % accentPalette.length];
+        tile.style.borderColor = `${accent}55`;
+        tile.style.background = `radial-gradient(circle at top, ${accent}1c, rgba(15,23,42,0.98))`;
+
+        const label = document.createElement("div");
+        label.className = "tile-label";
+        label.textContent = project.label;
+
+        const value = document.createElement("div");
+        value.className = "tile-value";
+        const base = randomFloat(3, 12, 0);
+        value.textContent = base.toFixed(0).padStart(2, "0");
+
+        const meta = document.createElement("div");
+        meta.className = "tile-meta";
+
+        const pill = document.createElement("span");
+        pill.className = "tile-pill";
+        pill.textContent = project.key;
+
+        const unit = document.createElement("span");
+        unit.textContent = `${randomFloat(1, 9, 0).toFixed(0)} ${project.unit}`;
+
+        meta.appendChild(pill);
+        meta.appendChild(unit);
+
+        tile.appendChild(label);
+        tile.appendChild(value);
+        tile.appendChild(meta);
+
+        tile.addEventListener("mousemove", (e) => {
+          const rect = tile.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          tile.style.transform = `translateY(-4px) rotateX(${y * -4}deg) rotateY(${x * 4}deg)`;
+        });
+
+        tile.addEventListener("mouseleave", () => {
+          tile.style.transform = "translateY(0)";
+        });
+
+        grid.appendChild(tile);
+      });
+    }
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      applyTheme();
+    });
+
+    applyTheme();
+  </script>
+</body>
+</html>
